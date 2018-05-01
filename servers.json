@@ -1,5 +1,5 @@
 {
-    "providers" : [
+    "external" : [
         {
             "name" : "Google",
             "ips" : [
@@ -76,5 +76,11 @@
                 "8.20.247.20"
             ]
         }
-    ]
+    ],
+    "internal" : {
+        "name" : "FritzBox 6490",
+        "ips" : [
+            "192.168.0.16"
+        ]
+    }
 }
