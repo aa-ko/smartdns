@@ -1,25 +1,29 @@
 const packet = require('dns-packet');
 const dgram = require('dgram');
-const dns = require("dns");
-const objectHash = require('object-hash');
+//const dns = require("dns");
 
 const cache = require("./src/dnscache");
 
-//var cache = new nodeCache();
-var proxySocket = dgram.createSocket("udp4");
+var proxySocketUdp4 = dgram.createSocket("udp4");
+var proxySocketUdp6 = dgram.createSocket("udp6");
 
-proxySocket.on("message", (proxyMsg, proxyRinfo) => {
+proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
     console.log("Received proxy request on port '" + proxyRinfo.port + "'.");
     //console.log(JSON.stringify(packet.decode(proxyMsg)));
     var tempSocket = dgram.createSocket("udp4");
 
+    var decoded = packet.decode(proxyMsg);
+
     // Local resolve
-    if (packet.decode(proxyMsg)["questions"][0]["name"].includes("fritz.box")) {
+    if (   decoded["questions"] != undefined
+        && decoded["questions"].length == 1
+        && decoded["questions"][0]["name"] != undefined
+        && decoded["questions"][0]["name"].includes("fritz.box")) {
         console.log("Resolving locally.");
 
         tempSocket.on("message", (msg, rinfo) => {
             console.log("Sending response to " + proxyRinfo.address + " on port " + proxyRinfo.port);
-            proxySocket.send(msg, proxyRinfo.port, proxyRinfo.address);
+            proxySocketUdp4.send(msg, proxyRinfo.port, proxyRinfo.address);
             tempSocket.close();
             cache.set(proxyMsg, msg, 10);
         });
@@ -33,7 +37,7 @@ proxySocket.on("message", (proxyMsg, proxyRinfo) => {
 
                 tempSocket.on("message", (msg, rinfo) => {
                     console.log("Sending response to " + proxyRinfo.address + " on port " + proxyRinfo.port);
-                    proxySocket.send(msg, proxyRinfo.port, proxyRinfo.address);
+                    proxySocketUdp4.send(msg, proxyRinfo.port, proxyRinfo.address);
                     tempSocket.close();
 
                     cache.set(proxyMsg, msg, 10);
@@ -44,11 +48,11 @@ proxySocket.on("message", (proxyMsg, proxyRinfo) => {
             // Cache hit
             else {
                 console.log("Sending response to " + proxyRinfo.address + " on port " + proxyRinfo.port);
-                proxySocket.send(data, proxyRinfo.port, proxyRinfo.address);
+                proxySocketUdp4.send(data, proxyRinfo.port, proxyRinfo.address);
                 tempSocket.close();
             }
         });
     }
 });
 
-proxySocket.bind(53);
+proxySocketUdp4.bind(53);
