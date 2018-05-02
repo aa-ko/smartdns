@@ -1,11 +1,13 @@
-const packet = require('dns-packet');
-const dgram = require('dgram');
+import * as packet from "dns-packet";
+import * as dgram from "dgram";
 //const dns = require("dns");
 
-const cache = require("./src/dnscache");
+import * as DnsCache from "./DnsCache";
 
 var proxySocketUdp4 = dgram.createSocket("udp4");
 var proxySocketUdp6 = dgram.createSocket("udp6");
+
+let cache = new DnsCache.DnsCache();
 
 proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
     console.log("Received proxy request on port '" + proxyRinfo.port + "'.");
@@ -25,12 +27,12 @@ proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
             console.log("Sending response to " + proxyRinfo.address + " on port " + proxyRinfo.port);
             proxySocketUdp4.send(msg, proxyRinfo.port, proxyRinfo.address);
             tempSocket.close();
-            cache.set(proxyMsg, msg, 10);
+            cache.Set(proxyMsg, msg, 10);
         });
         tempSocket.send(proxyMsg, 53, "192.168.0.16");
     }
     else {
-        cache.get(proxyMsg, (err, data) => {
+        cache.Get(proxyMsg, (err, data) => {
             // Cache miss
             if (err || data == undefined) {
                 console.log("Fetching from external DNS.");
@@ -40,7 +42,7 @@ proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
                     proxySocketUdp4.send(msg, proxyRinfo.port, proxyRinfo.address);
                     tempSocket.close();
 
-                    cache.set(proxyMsg, msg, 10);
+                    cache.Set(proxyMsg, msg, 10);
                 });
 
                 tempSocket.send(proxyMsg, 53, "1.1.1.1");
@@ -56,3 +58,5 @@ proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
 });
 
 proxySocketUdp4.bind(53);
+
+console.log("Started.");
