@@ -1,8 +1,12 @@
 import * as packet from "dns-packet";
 import * as dgram from "dgram";
 //const dns = require("dns");
-
 import * as DnsCache from "./DnsCache";
+import { LoggerFactory } from "./logging/GlobalLogger";
+
+var Logger = LoggerFactory.Get("app");
+
+Logger.LogInfo("Init.");
 
 var proxySocketUdp4 = dgram.createSocket("udp4");
 var proxySocketUdp6 = dgram.createSocket("udp6");
@@ -11,7 +15,6 @@ let cache = new DnsCache.DnsCache();
 
 proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
     console.log("Received proxy request on port '" + proxyRinfo.port + "'.");
-    //console.log(JSON.stringify(packet.decode(proxyMsg)));
     var tempSocket = dgram.createSocket("udp4");
 
     var decoded = packet.decode(proxyMsg);
@@ -59,4 +62,4 @@ proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
 
 proxySocketUdp4.bind(53);
 
-console.log("Started.");
+Logger.LogInfo("Started DNS Proxy");
