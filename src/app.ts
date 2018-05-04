@@ -3,6 +3,9 @@ import * as dgram from "dgram";
 //const dns = require("dns");
 import * as DnsCache from "./DnsCache";
 import { LoggerFactory } from "./logging/GlobalLogger";
+import { RequestWrapper } from "./RequestWrapper";
+import { LocalResolver } from "./handlers/LocalResolver";
+import { HandlerChain } from "./HandlerChain";
 
 var Logger = LoggerFactory.Get("app");
 
@@ -12,12 +15,18 @@ var proxySocketUdp4 = dgram.createSocket("udp4");
 var proxySocketUdp6 = dgram.createSocket("udp6");
 
 let cache = new DnsCache.DnsCache();
+let chain = new HandlerChain([
+    // TODO: Remove constant IP address and fetch dynamically from config file.
+    new LocalResolver("192.168.0.16")
+]);
 
 proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
     console.log("Received proxy request on port '" + proxyRinfo.port + "'.");
     var tempSocket = dgram.createSocket("udp4");
 
     var decoded = packet.decode(proxyMsg);
+
+    var request = new RequestWrapper(proxyMsg, proxyRinfo);
 
     // Local resolve
     if (   decoded["questions"] != undefined

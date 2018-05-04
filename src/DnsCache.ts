@@ -26,8 +26,8 @@ export class DnsCache implements IDnsCache {
         });
     }
 
-    Get(key, callback): void {
-        return this.InternalGet(key, callback, "response");
+    Get(key, callback: (err : boolean, data: any) => void): void {
+        this.InternalGet(key, callback, "response");
     }
 
     GetId(key, callback): void {
