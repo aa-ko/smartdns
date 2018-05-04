@@ -1,6 +1,5 @@
 import { HandlerBase } from "../HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
-import { SocketWrapperBase } from "../sockets/SocketWrapperBase";
 import * as dgram from "dgram";
 
 export class LocalResolver extends HandlerBase {
