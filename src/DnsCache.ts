@@ -2,12 +2,7 @@ import * as NodeCache from "node-cache";
 import * as packet from "dns-packet";
 import * as objectHash from "object-hash";
 
-export interface IDnsCache {
-    Set(key: any, value: any, ttl: any): void;
-    Get(key: any, callback: any): void;
-}
-
-export class DnsCache implements IDnsCache {
+export class DnsCache {
     _cache: NodeCache;
 
     constructor() {
@@ -26,7 +21,7 @@ export class DnsCache implements IDnsCache {
         });
     }
 
-    Get(key, callback: (err : boolean, data: any) => void): void {
+    Get(key, callback: (err: boolean, data: any) => void): void {
         this.InternalGet(key, callback, "response");
     }
 
