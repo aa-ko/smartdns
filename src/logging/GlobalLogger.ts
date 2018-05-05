@@ -5,7 +5,7 @@ export class LoggerFactory {
 }
 
 export class GlobalLogger {
-    _type: string;
+    private _type: string;
     constructor(type: string) {
         this._type = type;
     }

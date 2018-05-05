@@ -1,10 +1,10 @@
-import { HandlerBase } from "../HandlerBase";
+import { HandlerBase } from "./HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
 import * as dgram from "dgram";
 
 export class LocalResolver extends HandlerBase {
-    _ip: string;
-    _socket: dgram.Socket;
+    private _ip: string;
+    private _socket: dgram.Socket;
 
     constructor(ip: string) {
         super();
@@ -13,8 +13,7 @@ export class LocalResolver extends HandlerBase {
     }
 
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
-        // TODO: How should an invalid state be handled?
-        //  	 Callback won't be executed if no action is performed.
+        // TODO: Move this to base class!
         if (!this.ShouldProcess(request)) {
             request.AppendLog("LocalResolver", "Nothing to process. No action performed.", request.CurrentState());
             cb(request);
@@ -36,13 +35,7 @@ export class LocalResolver extends HandlerBase {
         }
         else {
             request.AppendLog("LocalResolver", `Unable to resolve locally, forwarding..`, InternalState.Assigned);
-            if (this._successor) {
-                this._successor.Handle(request, cb);
-            }
-            else {
-                request.AppendLog("LocalResolver", "End of chain without result!", InternalState.Error);
-                cb(request);
-            }
+            this._successor.Handle(request, cb);
         }
     }
 }

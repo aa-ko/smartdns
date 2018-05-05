@@ -15,6 +15,7 @@ export class RequestWrapper {
         this._requestMessage = message;
         this._requestInfo = info;
         this._requestDecoded = packet.decode(this._requestMessage);
+        this._log = [];
     }
 
     CurrentState(): InternalState {

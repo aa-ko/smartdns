@@ -2,8 +2,9 @@ import * as NodeCache from "node-cache";
 import * as packet from "dns-packet";
 import * as objectHash from "object-hash";
 
+// TODO: Move value wrapper to own class and rework key deletion for hash calculation.
 export class DnsCache {
-    _cache: NodeCache;
+    private _cache: NodeCache;
 
     constructor() {
         this._cache = new NodeCache();
@@ -26,10 +27,10 @@ export class DnsCache {
     }
 
     GetId(key, callback): void {
-        return this.InternalGet(key, callback, "id");
+        this.InternalGet(key, callback, "id");
     }
 
-    InternalGet(key, callback, identifier): void {
+    private InternalGet(key, callback, identifier): void {
         this.ComputeHash(key, (hash, omitted) => {
             this._cache.get(hash, (err, data) => {
                 if (err || data == undefined) {
@@ -44,7 +45,7 @@ export class DnsCache {
         });
     }
 
-    ComputeHash(input, callback): void {
+    private ComputeHash(input, callback): void {
         // TODO: Implement generically for any possible key and define mappings based on the request type.
         var decoded = packet.decode(input);
         var omitted = {
