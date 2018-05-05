@@ -1,16 +1,23 @@
 export class LoggerFactory {
     static Get(type: string) {
-        return new GlobalLogger(type);
+        // TODO: Fetch log level from config file.
+        return new GlobalLogger(type, LogLevel.Debug);
     }
 }
 
 export class GlobalLogger {
+    // TODO: Make logging async?
+
     private _type: string;
-    constructor(type: string) {
+    private _level: LogLevel;
+    constructor(type: string, level: LogLevel) {
         this._type = type;
+        this._level = level;
     }
     Log(level: LogLevel, message: string): void {
-        console.log(this.GetTimestamp() + " - " + level + " - " + this._type + " - " + message);
+        if (true) {//this._level >= level) {
+            console.log(this.GetTimestamp() + " - " + level + " - " + this._type + " - " + message);
+        }
     }
     LogDebug(message: string): void {
         this.Log(LogLevel.Debug, message);

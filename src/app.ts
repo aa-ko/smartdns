@@ -24,7 +24,7 @@ let chain = new HandlerChain([
 ]);
 
 proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
-    console.log("Received proxy request on port '" + proxyRinfo.port + "'.");
+    Logger.LogDebug("Received proxy request on port '" + proxyRinfo.port + "'.");
     var request = new RequestWrapper(proxyMsg, proxyRinfo);
     chain.Handle(request, result => {
         proxySocketUdp4.send(result._responseMessage, proxyRinfo.port, proxyRinfo.address);
