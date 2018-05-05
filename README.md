@@ -19,6 +19,7 @@ Since I could not find any implementation that provided all these features I sta
 
 ## Roadmap
 1. Fully implement IPv6 and requests via TCP
+1. Automatically choose fastest server
 2. Adblock functionality
 2. Smarter caching
 3. Monitoring
