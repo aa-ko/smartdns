@@ -1,9 +1,8 @@
 # DNS proxy
 
 ## What is this?
-I wanted something like [pi-hole](https://pi-hole.net/) that would also automatically choose the fastest DNS server and implement simple caching.
+I wanted something like [pi-hole](https://pi-hole.net/) that would also automatically choose the fastest DNS server and implement simple caching. Also I wanted to customize my DNS server configuration based on the device the request came from and define specific rules for the cache.
 
-Also I wanted to customize my DNS server configuration based on the device the request came from and define specific rules for the cache.
 Since I could not find any implementation that provided all these features I started this project.
 
 ## Requirements
