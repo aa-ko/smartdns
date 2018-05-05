@@ -1,0 +1,1 @@
+tsc; if($?) { node .\dist\app.js }
