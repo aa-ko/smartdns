@@ -6,8 +6,7 @@
       "sourceMap": true
     },
     "files": [
-      "./src/app.ts",
-      "./src/DnsCache.ts"
+      "./src/app.ts"
     ],
     "include": [
       "src/**/*.ts"
