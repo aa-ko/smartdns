@@ -1,0 +1,6 @@
+{
+    "loglevel" : "INFO",
+    "port": 53,
+    "ttl": 30,
+    "resolveMode": "fastest"
+}
