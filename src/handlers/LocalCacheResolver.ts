@@ -1,14 +1,14 @@
 import { HandlerBase } from "./HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
-import { DnsCache } from "../caching/DnsCache";
+import { LocalDnsCache } from "../caching/LocalDnsCache";
 import { CachePool } from "../caching/CachePool";
 
-export class CacheResolver extends HandlerBase {
-    _internalCache: DnsCache;
+export class LocalCacheResolver extends HandlerBase {
+    _internalCache: LocalDnsCache;
 
     constructor() {
         super();
-        this._internalCache = CachePool.GetRegion("default");
+        this._internalCache = CachePool.GetRegion(CachePool.DefaultCacheRegion);
     }
     
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {

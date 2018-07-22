@@ -1,17 +1,19 @@
 import { Dictionary } from "../util/Dictionary";
-import { DnsCache } from "./DnsCache";
+import { LocalDnsCache } from "./LocalDnsCache";
 
 export class CachePool {
-    private static _regions: Dictionary<DnsCache>;
+    static DefaultCacheRegion: string = "DEFAULT";
+    
+    private static _regions: Dictionary<LocalDnsCache>;
 
-    static GetRegion(regionKey: string): DnsCache {
+    static GetRegion(regionKey: string): LocalDnsCache {
         if(this._regions === undefined) {
-            this._regions = new Dictionary<DnsCache>();
+            this._regions = new Dictionary<LocalDnsCache>();
         }
         
         var region = this._regions.Get(regionKey);
         if (!region) {
-            region = new DnsCache();
+            region = new LocalDnsCache();
             this._regions.Add(regionKey, region);
         }
         return region;

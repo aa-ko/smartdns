@@ -1,6 +1,6 @@
-import { HandlerBase } from "../handlers/HandlerBase";
+import { HandlerBase } from "./HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
-import { FinalHandler } from "../handlers/FinalHandler";
+import { FinalHandler } from "./FinalHandler";
 import { HookBase } from "../hooks/HookBase";
 import { CacheRefreshHook } from "../hooks/CacheRefreshHook";
 

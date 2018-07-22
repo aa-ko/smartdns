@@ -1,13 +1,14 @@
 import * as packet from "dns-packet";
 import * as dgram from "dgram";
 //const dns = require("dns");
-import * as DnsCache from "./caching/DnsCache";
+import * as DnsCache from "./caching/LocalDnsCache";
 import { LoggerFactory } from "./logging/GlobalLogger";
 import { RequestWrapper } from "./RequestWrapper";
 import { LocalResolver } from "./handlers/LocalResolver";
 import { HandlerChain } from "./handlers/HandlerChain";
-import { CacheResolver } from "./handlers/CacheResolver";
+import { LocalCacheResolver } from "./handlers/LocalCacheResolver";
 import { ExternalResolver } from "./handlers/ExternalResolver";
+import { RedisCacheResolver } from "./handlers/RedisCacheResolver";
 
 var Logger = LoggerFactory.Get("app");
 
@@ -18,9 +19,9 @@ var proxySocketUdp6 = dgram.createSocket("udp6");
 
 let chain = new HandlerChain([
     // TODO: Remove constant IP addresses and fetch dynamically from config file.
-    new CacheResolver(),
+    new RedisCacheResolver("srv-sobek", 32768),
     new LocalResolver("192.168.0.16"),
-    new ExternalResolver("1.1.1.1")
+    new ExternalResolver("8.8.8.8")
 ]);
 
 proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {

@@ -4,7 +4,6 @@ import * as packet from "dns-packet";
 export class RequestWrapper {
     _requestMessage: Buffer;
     _requestInfo: dgram.AddressInfo;
-    _requestDecoded: any;
 
     _responseMessage: Buffer;
     _responseInfo: dgram.AddressInfo;
@@ -14,8 +13,15 @@ export class RequestWrapper {
     constructor(message: Buffer, info: dgram.AddressInfo) {
         this._requestMessage = message;
         this._requestInfo = info;
-        this._requestDecoded = packet.decode(this._requestMessage);
         this._log = [];
+    }
+
+    GetDecodedRequest(): any {
+        return packet.decode(this._requestMessage);
+    }
+
+    GetDecodedResponse(): any {
+        return packet.decode(this._responseMessage);
     }
 
     CurrentState(): InternalState {
