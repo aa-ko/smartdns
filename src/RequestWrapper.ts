@@ -25,6 +25,9 @@ export class RequestWrapper {
     }
 
     CurrentState(): InternalState {
+        if (this._log.length <= 0) {
+            return InternalState.Unprocessed;
+        }
         return this._log[this._log.length - 1]._newState;
     }
 

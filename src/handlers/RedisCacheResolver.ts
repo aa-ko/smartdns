@@ -18,6 +18,8 @@ export class RedisCacheResolver extends HandlerBase {
             }
             else {
                 // TODO: Log
+                let id = request.GetDecodedRequest()["id"];
+                response._responseMessage["id"] = id;
                 cb(response);
             }
         });
