@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Checking DNS speeds.."
+
 lat=$(dig @8.8.8.8 | grep "Query time:" | grep -Po '(\d)+')
 echo "Google DNS (8.8.8.8): $lat ms"
 

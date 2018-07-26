@@ -1,16 +1,18 @@
 import { HookBase } from "./HookBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
 import { LocalDnsCache } from "../caching/LocalDnsCache";
-import { CachePool } from "../caching/CachePool";
+import { LocalCachePool } from "../caching/LocalCachePool";
 
-export class CacheRefreshHook extends HookBase {
-    Entrypoint: InternalState;
+export class LocalCacheRefreshHook extends HookBase {
     private _cache: LocalDnsCache;
 
     constructor() {
         super();
-        this.Entrypoint = InternalState.Success;
-        this._cache = CachePool.GetRegion(CachePool.DefaultCacheRegion);
+        this._cache = LocalCachePool.GetRegion(LocalCachePool.DefaultCacheRegion);
+    }
+
+    GetEntrypoint(): InternalState {
+        return InternalState.Success;
     }
 
     Process(result: RequestWrapper): void {

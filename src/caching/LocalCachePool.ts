@@ -1,7 +1,7 @@
 import { Dictionary } from "../util/Dictionary";
 import { LocalDnsCache } from "./LocalDnsCache";
 
-export class CachePool {
+export class LocalCachePool {
     static DefaultCacheRegion: string = "DEFAULT";
     
     private static _regions: Dictionary<LocalDnsCache>;

@@ -1,6 +1,5 @@
 import * as NodeCache from "node-cache";
 import * as packet from "dns-packet";
-import * as objectHash from "object-hash";
 import { GlobalLogger, LoggerFactory } from "../logging/GlobalLogger";
 import { CacheBase } from "./CacheBase";
 

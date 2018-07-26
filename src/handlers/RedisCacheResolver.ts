@@ -1,18 +1,25 @@
 import { HandlerBase } from "./HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
-
-// TODO: Is this okay or can I avoid using "require" here?
-const redis = require("redis");
+import { RedisDnsCache } from "../caching/RedisDnsCache";
 
 export class RedisCacheResolver extends HandlerBase {
-    _redisClient: any;
+    _redisCache: RedisDnsCache;
 
     constructor(redisIpOrHostname: string, redisPort: number) {
         super();
-        this._redisClient = redis.createClient(redisPort, redisIpOrHostname);
+        this._redisCache = new RedisDnsCache(redisIpOrHostname, redisPort);
     }
-    
+
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
-        this._redisClient.set("")
+        this._redisCache.Get(request, (err, response) => {
+            if (err || response == null) {
+                // TODO: Log
+                this._successor.Handle(request, cb);
+            }
+            else {
+                // TODO: Log
+                cb(response);
+            }
+        });
     }
 }

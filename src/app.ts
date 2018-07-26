@@ -19,7 +19,7 @@ var proxySocketUdp6 = dgram.createSocket("udp6");
 
 let chain = new HandlerChain([
     // TODO: Remove constant IP addresses and fetch dynamically from config file.
-    new RedisCacheResolver("srv-sobek", 32768),
+    new RedisCacheResolver("127.0.0.1", 6379),
     new LocalResolver("192.168.0.16"),
     new ExternalResolver("8.8.8.8")
 ]);
