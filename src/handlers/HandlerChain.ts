@@ -1,8 +1,9 @@
-import { HandlerBase } from "../handlers/HandlerBase";
-import { RequestWrapper, InternalState } from "../RequestWrapper";
-import { FinalHandler } from "../handlers/FinalHandler";
+import { HandlerBase } from "./HandlerBase";
+import { RequestWrapper } from "../RequestWrapper";
+import { FinalHandler } from "./FinalHandler";
 import { HookBase } from "../hooks/HookBase";
-import { CacheRefreshHook } from "../hooks/CacheRefreshHook";
+import { LocalCacheRefreshHook } from "../hooks/LocalCacheRefreshHook";
+import { RedisCacheRefreshHook } from "../hooks/RedisCacheRefreshHook";
 
 export class HandlerChain extends HandlerBase {
     private _start: HandlerBase;
@@ -25,8 +26,10 @@ export class HandlerChain extends HandlerBase {
         }
 
         // Setup hooks
+        // TODO: Dynamically setup all hooks
         this._hooks = [
-            new CacheRefreshHook()
+            //new LocalCacheRefreshHook(),
+            new RedisCacheRefreshHook("127.0.0.1", 6379)
         ];
     }
 
@@ -38,9 +41,11 @@ export class HandlerChain extends HandlerBase {
     }
 
     private ExecuteHooks(result: RequestWrapper): void {
-        switch(result.CurrentState()) {
-            case InternalState.Success:
-                (new CacheRefreshHook()).Process(result);
-        }
+        let currentState = result.GetCurrentState();
+        this._hooks.forEach(hook => {
+            if (currentState === hook.GetEntrypoint()) {
+                hook.Process(result);
+            }
+        })
     }
 }
