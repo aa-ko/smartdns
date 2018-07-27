@@ -14,10 +14,12 @@ export class RedisCacheResolver extends HandlerBase {
         this._redisCache.Get(request, (err, response) => {
             if (err || response == null) {
                 // TODO: Log
+                request.AppendLog("RedisCacheResolver", "Cache MISS", InternalState.Assigned);
                 this._successor.Handle(request, cb);
             }
             else {
                 // TODO: Log
+                request.AppendLog("LocalCacheResolver", "Cache HIT", InternalState.Success);
                 let id = request.GetDecodedRequest()["id"];
                 response._responseMessage["id"] = id;
                 cb(response);

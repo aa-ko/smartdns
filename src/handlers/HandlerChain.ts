@@ -28,7 +28,7 @@ export class HandlerChain extends HandlerBase {
         // Setup hooks
         // TODO: Dynamically setup all hooks
         this._hooks = [
-            new LocalCacheRefreshHook(),
+            //new LocalCacheRefreshHook(),
             new RedisCacheRefreshHook("127.0.0.1", 6379)
         ];
     }
@@ -41,9 +41,10 @@ export class HandlerChain extends HandlerBase {
     }
 
     private ExecuteHooks(result: RequestWrapper): void {
-        switch(result.CurrentState()) {
-            case InternalState.Success:
-                (new LocalCacheRefreshHook()).Process(result);
-        }
+        this._hooks.forEach(hook => {
+            if (result.CurrentState() == hook.GetEntrypoint()) {
+                hook.Process(result);
+            }
+        })
     }
 }

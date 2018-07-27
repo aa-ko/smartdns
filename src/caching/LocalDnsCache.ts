@@ -1,6 +1,6 @@
 import * as NodeCache from "node-cache";
 import * as packet from "dns-packet";
-import { GlobalLogger, LoggerFactory } from "../logging/GlobalLogger";
+import { GlobalLogger } from "../logging/GlobalLogger";
 import { CacheBase } from "./CacheBase";
 
 // TODO: Rework id hack?
@@ -10,7 +10,7 @@ export class LocalDnsCache extends CacheBase {
 
     constructor() {
         super();
-        this.Logger = LoggerFactory.Get("DnsCache");
+        this.Logger = GlobalLogger.Get("LocalDnsCache");
         this._cache = new NodeCache();
     }
 

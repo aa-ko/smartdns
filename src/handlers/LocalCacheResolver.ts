@@ -14,11 +14,11 @@ export class LocalCacheResolver extends HandlerBase {
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
         this._internalCache.Get(request._requestMessage, (err, data) => {
             if(err || data === undefined) {
-                request.AppendLog("CacheResolver", "Cache MISS", InternalState.Assigned);
+                request.AppendLog("LocalCacheResolver", "Cache MISS", InternalState.Assigned);
                 this._successor.Handle(request, cb);
             }
             else {
-                request.AppendLog("CacheResolver", "Cache HIT", InternalState.Success);
+                request.AppendLog("LocalCacheResolver", "Cache HIT", InternalState.Success);
                 request._responseMessage = data;
                 cb(request);
             }
