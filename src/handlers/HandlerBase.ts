@@ -14,7 +14,7 @@ export abstract class HandlerBase {
     abstract Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void;
 
     protected ShouldProcess(request: RequestWrapper): boolean {
-        if (request.CurrentState() <= InternalState.Assigned) return true;
+        if (request.GetCurrentState() <= InternalState.Assigned) return true;
         else return false;
     }
 }

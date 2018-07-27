@@ -20,6 +20,10 @@ export abstract class CacheBase {
         return packet.decode(input);
     }
 
+    protected EncodePacket(input: any): Buffer {
+        return packet.encode(input);
+    }
+
     protected ComputeHash(input: object) {
         return sha256(JSON.stringify(input));
     }

@@ -1,28 +1,30 @@
 import { HandlerBase } from "./HandlerBase";
 import { RequestWrapper, InternalState } from "../RequestWrapper";
 import { RedisDnsCache } from "../caching/RedisDnsCache";
+import { GlobalLogger } from "../logging/GlobalLogger";
 
 export class RedisCacheResolver extends HandlerBase {
-    _redisCache: RedisDnsCache;
+    private Logger: GlobalLogger;
+    private _redisCache: RedisDnsCache;
 
     constructor(redisIpOrHostname: string, redisPort: number) {
         super();
+        this.Logger = GlobalLogger.Get("RedisCacheResolver");
         this._redisCache = new RedisDnsCache(redisIpOrHostname, redisPort);
     }
 
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
-        this._redisCache.Get(request, (err, response) => {
+        this._redisCache.Get(request._requestMessage, (err, response) => {
             if (err || response == null) {
-                // TODO: Log
+                this.Logger.LogDebug("Cache MISS.");
                 request.AppendLog("RedisCacheResolver", "Cache MISS", InternalState.Assigned);
                 this._successor.Handle(request, cb);
             }
             else {
-                // TODO: Log
+                this.Logger.LogDebug("Cache HIT.");
                 request.AppendLog("LocalCacheResolver", "Cache HIT", InternalState.Success);
-                let id = request.GetDecodedRequest()["id"];
-                response._responseMessage["id"] = id;
-                cb(response);
+                request._responseMessage = response;
+                cb(request);
             }
         });
     }

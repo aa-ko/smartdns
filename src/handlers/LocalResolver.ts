@@ -15,7 +15,7 @@ export class LocalResolver extends HandlerBase {
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
         // TODO: Move this to base class!
         if (!this.ShouldProcess(request)) {
-            request.AppendLog("LocalResolver", "Nothing to process. No action performed.", request.CurrentState());
+            request.AppendLog("LocalResolver", "Nothing to process. No action performed.", request.GetCurrentState());
             cb(request);
         }
 

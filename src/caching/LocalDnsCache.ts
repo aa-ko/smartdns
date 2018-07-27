@@ -43,7 +43,7 @@ export class LocalDnsCache extends CacheBase {
                 this.Logger.LogDebug(`Cache HIT for object with key '${hash}'.`);
                 // Fake ID -> Please refactor this!
                 data["id"] = requestId;
-                callback(err, packet.encode(data));
+                callback(err, this.EncodePacket(data));
             }
         });
     }

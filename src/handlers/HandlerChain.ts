@@ -1,5 +1,5 @@
 import { HandlerBase } from "./HandlerBase";
-import { RequestWrapper, InternalState } from "../RequestWrapper";
+import { RequestWrapper } from "../RequestWrapper";
 import { FinalHandler } from "./FinalHandler";
 import { HookBase } from "../hooks/HookBase";
 import { LocalCacheRefreshHook } from "../hooks/LocalCacheRefreshHook";
@@ -41,8 +41,9 @@ export class HandlerChain extends HandlerBase {
     }
 
     private ExecuteHooks(result: RequestWrapper): void {
+        let currentState = result.GetCurrentState();
         this._hooks.forEach(hook => {
-            if (result.CurrentState() == hook.GetEntrypoint()) {
+            if (currentState === hook.GetEntrypoint()) {
                 hook.Process(result);
             }
         })

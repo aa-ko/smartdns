@@ -15,6 +15,6 @@ export class RedisCacheRefreshHook extends HookBase {
     }
     
     Process(result: RequestWrapper) : void {
-        this._cache.SetOrUpdate(result, 60);
+        this._cache.SetOrUpdate(result._requestMessage, result._responseMessage, 60);
     }    
 }

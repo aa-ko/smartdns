@@ -24,7 +24,7 @@ export class RequestWrapper {
         return packet.decode(this._responseMessage);
     }
 
-    CurrentState(): InternalState {
+    GetCurrentState(): InternalState {
         if (this._log.length <= 0) {
             return InternalState.Unprocessed;
         }
