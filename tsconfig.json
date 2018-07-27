@@ -8,7 +8,8 @@
       "noUnusedLocals": false,
       "noUnusedParameters": false,
       "noImplicitReturns": true,
-      "noImplicitThis": true
+      "noImplicitThis": true,
+      "strict": false
     },
     "files": [
       "./src/app.ts"
