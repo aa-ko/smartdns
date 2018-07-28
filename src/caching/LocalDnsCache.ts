@@ -1,5 +1,4 @@
 import * as NodeCache from "node-cache";
-import * as packet from "dns-packet";
 import { GlobalLogger } from "../logging/GlobalLogger";
 import { CacheBase } from "./CacheBase";
 
@@ -15,7 +14,7 @@ export class LocalDnsCache extends CacheBase {
     }
 
     // TODO: Fix types.
-    Set(key: Buffer, value: Buffer, ttl: number): void {
+    SetOrUpdate(key: Buffer, value: Buffer, ttl: number): void {
         // TODO: Id values are simply not stored. Is this okay?
         var hash = this.DecodeAndHash(key, ["id"]);
         this.Logger.LogDebug(`Caching object with key '${hash}' for ${ttl} seconds.`);
@@ -24,9 +23,9 @@ export class LocalDnsCache extends CacheBase {
         this._cache.set(hash, toCache, ttl);
     }
 
-    Get(key: Buffer, callback: (err: boolean, data: any) => void): void {
+    Get(key: Buffer, cb: (err: boolean, value: Buffer) => void): void {
         // Why???
-        this.InternalGet(key, callback);
+        this.InternalGet(key, cb);
     }
 
     private InternalGet(key: Buffer, callback: (err: boolean, result: Buffer) => void): void {

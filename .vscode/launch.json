@@ -7,9 +7,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\dist\\app.js",
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "name": "Launch proxy",
+            "program": "${workspaceFolder}\\dist\\proxy\\launchers\\proxy\\proxy.js",
+            //"preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch adblock",
+            "program": "${workspaceFolder}\\dist\\adblock\\launchers\\adblock\\adblock.js",
+            //"preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ]

@@ -7,7 +7,7 @@ export class RedisCacheRefreshHook extends HookBase {
 
     constructor(ip: string, port: number){
         super();
-        this._cache = new RedisDnsCache(ip, port);
+        this._cache = RedisDnsCache.GetInstance(ip, port);
     }
     
     GetEntrypoint(): InternalState {

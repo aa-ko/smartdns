@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "../../../dist/proxy",
+        "sourceMap": true,
+        "removeComments": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "strict": false
+    },
+    "files": [
+        "./proxy.ts"
+    ],
+    "exclude": [
+        "../../../node_modules"
+    ]
+}

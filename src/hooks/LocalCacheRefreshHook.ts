@@ -16,6 +16,6 @@ export class LocalCacheRefreshHook extends HookBase {
     }
 
     Process(result: RequestWrapper): void {
-        this._cache.Set(result._requestMessage, result._responseMessage, 60);
+        this._cache.SetOrUpdate(result._requestMessage, result._responseMessage, 60);
     }
 }

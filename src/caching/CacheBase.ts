@@ -1,5 +1,4 @@
 import * as packet from "dns-packet";
-import * as objectHash from "object-hash";
 import * as sha256 from "sha256";
 
 export abstract class CacheBase {
@@ -11,10 +10,8 @@ export abstract class CacheBase {
         return this.ComputeHash(decoded);
     }
 
-    // protected ComputeHash(input: any): string {
-    //     // TODO: Implement generically for any possible key and define mappings based on the request type.
-    //     return objectHash(input);
-    // }
+    abstract Get(key: Buffer, cb: (err: boolean, value: Buffer) => void): void;
+    abstract SetOrUpdate(key: Buffer, value: Buffer, ttl: number): void;
 
     protected DecodePacket(input: Buffer): any {
         return packet.decode(input);

@@ -1,11 +1,9 @@
 import * as dgram from "dgram";
-import { RequestWrapper } from "./RequestWrapper";
-import { LocalResolver } from "./handlers/LocalResolver";
-import { HandlerChain } from "./handlers/HandlerChain";
-//import { LocalCacheResolver } from "./handlers/LocalCacheResolver";
-import { ExternalResolver } from "./handlers/ExternalResolver";
-import { RedisCacheResolver } from "./handlers/RedisCacheResolver";
-import { GlobalLogger } from "./logging/GlobalLogger";
+import { RequestWrapper } from "../../RequestWrapper";
+import { HandlerChain } from "../../handlers/HandlerChain";
+import { ExternalResolver } from "../../handlers/ExternalResolver";
+import { RedisCacheResolver } from "../../handlers/RedisCacheResolver";
+import { GlobalLogger } from "../../logging/GlobalLogger";
 
 var Logger = GlobalLogger.Get("app");
 

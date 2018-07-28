@@ -1,19 +1,35 @@
-import * as redis from "redis";
-import * as packet from "dns-packet";
 import { CacheBase } from "./CacheBase";
 import { GlobalLogger } from "../logging/GlobalLogger";
+import { RedisAdapter } from "../communication/RedisAdapter";
+import { Dictionary } from "../util/Dictionary";
 
 export class RedisDnsCache extends CacheBase {
     private Logger: GlobalLogger;
-    private _redisClient: redis.RedisClient;
+    private _redisAdapter: RedisAdapter;
+
+    static _instances: Dictionary<RedisDnsCache> = new Dictionary<RedisDnsCache>();
+
+    static GetInstance(redisIp: string, redisPort: number): RedisDnsCache {
+        let key = this.GenerateKey(redisIp, redisPort);
+        if (this._instances.ContainsKey(key)) {
+            return this._instances.Get(key);
+        }
+        else {
+            let instance = new RedisDnsCache(redisIp, redisPort);
+            this._instances.Add(key, instance);
+            return instance;
+        }
+    }
+
+    static GenerateKey(redisIp: string, redisPort: number): string {
+        return redisIp + "-" + redisPort;
+    }
 
     constructor(redisIp: string, redisPort: number) {
         super();
         this.Logger = GlobalLogger.Get("RedisDnsCache");
-        this._redisClient = redis.createClient(redisPort, redisIp);
+        this._redisAdapter = new RedisAdapter(redisIp, redisPort);
     }
-
-    // TODO: This should only use Buffer objects and not the whole Wrapper, right?
 
     SetOrUpdate(key: Buffer, value: Buffer, ttl: number) {
         let hash = this.DecodeAndHash(key, ["id"]);
@@ -21,7 +37,7 @@ export class RedisDnsCache extends CacheBase {
         // TODO: Log
         let toCache = this.DecodePacket(value);
         delete toCache["id"];
-        this._redisClient.set(hash, JSON.stringify(toCache), "EX", ttl);
+        this._redisAdapter.Set(hash, JSON.stringify(toCache), ttl);
     }
 
     Get(key: Buffer, callback: (err: boolean, value: Buffer) => void): void {
@@ -30,7 +46,7 @@ export class RedisDnsCache extends CacheBase {
         let requestId = decoded["id"];
         delete decoded["id"];
         let hash = this.ComputeHash(decoded);
-        let hasValue = this._redisClient.get(hash, (err, value) => {
+        let hasValue = this._redisAdapter.Get(hash, (err, value) => {
             if (hasValue && !err && value != null) {
                 // TODO: Log
                 let result = JSON.parse(value);

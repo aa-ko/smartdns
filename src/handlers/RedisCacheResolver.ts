@@ -10,7 +10,7 @@ export class RedisCacheResolver extends HandlerBase {
     constructor(redisIpOrHostname: string, redisPort: number) {
         super();
         this.Logger = GlobalLogger.Get("RedisCacheResolver");
-        this._redisCache = new RedisDnsCache(redisIpOrHostname, redisPort);
+        this._redisCache = RedisDnsCache.GetInstance(redisIpOrHostname, redisPort);
     }
 
     Handle(request: RequestWrapper, cb: (result: RequestWrapper) => void): void {
