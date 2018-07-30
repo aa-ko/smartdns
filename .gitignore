@@ -59,4 +59,4 @@ typings/
 
 dist/*
 
-test/final_blocklist.txt
+final_blocklist.txt

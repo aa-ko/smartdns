@@ -21,6 +21,7 @@ export abstract class CacheBase {
         return packet.encode(input);
     }
 
+    // TODO: Replace this with Murmur hash?
     protected ComputeHash(input: object) {
         return sha256(JSON.stringify(input));
     }
