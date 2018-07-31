@@ -4,8 +4,13 @@ import { HandlerChain } from "../handlers/HandlerChain";
 import { ExternalResolver } from "../handlers/ExternalResolver";
 import { RedisCacheResolver } from "../handlers/RedisCacheResolver";
 import { GlobalLogger } from "../logging/GlobalLogger";
+import { AdblockResolver } from "../handlers/AdblockResolver";
 
-var Logger = GlobalLogger.Get("app");
+var Logger = GlobalLogger.Get("proxy");
+
+// TODO:
+// If the response from the real DNS server is made up of two separate UDP packets,
+// the first cached reponse is being overwritten by the second one.
 
 Logger.LogInfo("Init.");
 
@@ -14,6 +19,7 @@ var proxySocketUdp4 = dgram.createSocket("udp4");
 
 let chain = new HandlerChain([
     // TODO: Remove constant IP addresses and fetch dynamically from config file.
+    new AdblockResolver("127.0.0.1", 6379),
     new RedisCacheResolver("127.0.0.1", 6379),
     //new LocalResolver("192.168.0.16"),
     new ExternalResolver("8.8.8.8")
