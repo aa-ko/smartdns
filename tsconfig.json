@@ -6,7 +6,7 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "outDir": "./dist/all",
+        "outDir": "./dist/",
         "sourceMap": true,
         "removeComments": true,
         "noUnusedLocals": false,
@@ -15,8 +15,12 @@
         "noImplicitThis": true,
         "strict": false
     },
+    "files": [
+        "./src/launchers/proxy.ts",
+        "./src/launchers/blocklist.ts"
+    ],
     "include": [
-        "./src/**/.ts"
+        "./src/**/*.ts"
     ],
     "exclude": [
         "./node_modules"

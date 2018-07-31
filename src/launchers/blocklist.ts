@@ -1,5 +1,5 @@
 import * as schedule from "node-schedule";
-import { GlobalLogger } from "../../logging/GlobalLogger";
+import { GlobalLogger } from "../logging/GlobalLogger";
 //import { exec } from "child_process";
 
 const Logger = GlobalLogger.Get("blocklist");
