@@ -37,7 +37,7 @@ export class RedisDnsCache extends CacheBase {
         // TODO: Log
         let toCache = this.DecodePacket(value);
         delete toCache["id"];
-        this._redisAdapter.Set(hash, JSON.stringify(toCache), ttl);
+        this._redisAdapter.Setex(hash, JSON.stringify(toCache), ttl);
     }
 
     Get(key: Buffer, callback: (err: boolean, value: Buffer) => void): void {

@@ -51,6 +51,7 @@ export enum InternalState {
     Unprocessed = 0,
     Queued = 1,
     Assigned = 2,
+    Blocked = 3,
     Success = 5,
     Error = 6
 }

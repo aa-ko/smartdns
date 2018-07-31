@@ -1,6 +1,8 @@
 import * as redis from "redis";
 import { GlobalLogger } from "../logging/GlobalLogger";
 
+export type DefaultRedisCallback = redis.Callback<string>;
+
 // Wrapper object for the Redis package.
 export class RedisAdapter {
     private Logger: GlobalLogger;
@@ -23,7 +25,11 @@ export class RedisAdapter {
         return this._redisClient.get(key, cb);
     }
 
-    Set(key: string, value: string, ttl: number, cb?: redis.Callback<string>): void {
+    Setex(key: string, value: string, ttl: number, cb?: redis.Callback<string>): void {
         this._redisClient.setex(key, ttl, value, cb);
+    }
+
+    Set(key: string, value: string, cb?: redis.Callback<string>): void {
+        this._redisClient.set(key, value, cb);
     }
 }
