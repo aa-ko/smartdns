@@ -1,0 +1,24 @@
+// root tsconfig
+// This is needed to enable autocomplete in the project,
+// although the build process uses the files in the "launchers" directory
+
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "./dist/all",
+        "sourceMap": true,
+        "removeComments": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "strict": false
+    },
+    "include": [
+        "./src/**/.ts"
+    ],
+    "exclude": [
+        "./node_modules"
+    ]
+}

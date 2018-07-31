@@ -4,6 +4,9 @@ export abstract class HandlerBase {
     
     // TODO: Introduce name property and NoSuccessor method for graceful
     //       handling in the last chain element.
+
+    // TODO: Implement placeholder callback that checks if a handler finishes without executing the callback.
+    //       If this is the case, automatically execute the next handler in the chain.
     
     protected _successor: HandlerBase;
 
