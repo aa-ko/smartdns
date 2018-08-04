@@ -8,6 +8,8 @@ import { AdblockResolver } from "../handlers/AdblockResolver";
 
 var Logger = GlobalLogger.Get("proxy");
 
+const PROXY_PORT: number = 1234;
+
 // TODO:
 // If the response from the real DNS server is made up of two separate UDP packets,
 // the first cached reponse is being overwritten by the second one.
@@ -34,6 +36,6 @@ proxySocketUdp4.on("message", (proxyMsg, proxyRinfo) => {
     });
 });
 
-proxySocketUdp4.bind(53);
+proxySocketUdp4.bind(PROXY_PORT);
 
 Logger.LogInfo("Started DNS Proxy");

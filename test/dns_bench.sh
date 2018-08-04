@@ -22,7 +22,7 @@ echo "Google DNS (8.8.8.8): $lat ms"
 
 #echo ""
 
-lat=$(dig @127.0.0.1 | grep "Query time:" | grep -Po '(\d)+')
+lat=$(dig -p 1234 @127.0.0.1 | grep "Query time:" | grep -Po '(\d)+')
 echo "localhost (127.0.0.1): $lat ms"
 
 echo ""
