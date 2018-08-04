@@ -4,25 +4,46 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch proxy",
-            "program": "${workspaceFolder}\\dist\\proxy\\launchers\\proxy\\proxy.js",
+            "name": "Launch proxy Windows",
+            "program": "${workspaceFolder}\\dist\\launchers\\proxy.js",
             //"preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ]
+            // "outFiles": [
+            //     "${workspaceFolder}/dist/**/*.js"
+            // ]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch adblock",
-            "program": "${workspaceFolder}\\dist\\adblock\\launchers\\adblock\\adblock.js",
+            "name": "Launch adblock Windows",
+            "program": "${workspaceFolder}\\dist\\launchers\\adblock.js",
             //"preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ]
+            // "outFiles": [
+            //     "${workspaceFolder}/dist/**/*.js"
+            // ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch proxy Linux",
+            "program": "${workspaceFolder}/dist/launchers/proxy.js",
+            //"preLaunchTask": "tsc: build - tsconfig.json",
+            // "outFiles": [
+            //     "${workspaceFolder}/dist/**/*.js"
+            // ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch adblock Linux",
+            "program": "${workspaceFolder}/dist/launchers/adblock.js",
+            //"preLaunchTask": "tsc: build - tsconfig.json",
+            // "outFiles": [
+            //     "${workspaceFolder}/dist/**/*.js"
+            // ]
         }
     ]
 }
